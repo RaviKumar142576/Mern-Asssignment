@@ -1,14 +1,13 @@
 const jwt = require('../jwt');
 
-function AuthenticationMiddleware(req, res, next){
+function AuthorizationMiddleware(req, res, next){
     console.log("Inside Middleware")
     const { authorization } = req.headers;
-    if(!authorization){
-        res.send("Go and get the token");
+    const { permissions } = req.headers;
+    if(!permissions == ['user.edit']){
+        res.send("You dont have Permission");
     }else{
-    const payload =  jwt.verify(authorization);
-    req.userContext = {...payload};
-    console.log(payload);
+    res.send("Hello Admin");
     next();
     }
 }
